@@ -273,7 +273,7 @@ export default function PortfolioWebsite() {
               {/* View Resume (Modal) */}
               <button
                 onClick={() => setShowResume(true)}
-                className="group relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-black transition duration-300 hover:-translate-y-1 hover:bg-cyan-400/20 hover:shadow-[0_12px_30px_rgba(34,211,238,0.25)]"
+                className="group relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-cyan-400/20 hover:shadow-[0_12px_30px_rgba(34,211,238,0.25)]"
               >
                 <span className="relative z-10">👁 View Resume</span>
                 <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-[radial-gradient(circle,rgba(34,211,238,0.25),transparent_70%)]" />
