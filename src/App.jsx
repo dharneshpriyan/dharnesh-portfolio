@@ -215,7 +215,7 @@ export default function PortfolioWebsite() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div>
             <h1 className="text-lg font-bold tracking-wide">Dharnesh Priyan J</h1>
-            <p className="text-xs text-slate-400">Python & Full Stack Developer</p>
+            <p className="text-xs text-slate-400">Developer</p>
           </div>
           <nav className="hidden items-center gap-3 md:flex">
             {[
@@ -244,10 +244,10 @@ export default function PortfolioWebsite() {
           <div className="animate-[fadeIn_0.8s_ease-out]">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.12)]">
               <SparklesIcon />
-              Final Year Computer Science Student
+              Full stack Developer ( Python | Django | React )
             </div>
 
-            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-slate-400">Developer</p>
+            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-slate-400">Goal</p>
             <h2 className="max-w-5xl text-4xl font-black leading-[1.05] md:text-5xl xl:text-6xl">
               Building <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">premium</span> digital experiences and modern <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">full stack</span> solutions.
             </h2>
@@ -313,7 +313,7 @@ export default function PortfolioWebsite() {
                   <ProfileImage />
                   <p className="mt-5 text-xs uppercase tracking-[0.35em] text-slate-500">Professional Profile</p>
                   <h3 className="mt-3 text-4xl font-bold">Dharnesh Priyan J</h3>
-                  <p className="mt-3 text-base text-slate-300">Python Developer • Full Stack Developer</p>
+                  <p className="mt-3 text-base text-slate-300">Full Stack Developer ( Python | Django | React )</p>
                 </div>
 
                 <div className="mt-8 grid gap-4">
