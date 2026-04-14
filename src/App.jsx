@@ -281,7 +281,7 @@ export default function PortfolioWebsite() {
 
               {/* Download Resume */}
               <a
-                href="/dharneshpriyan.j_fullstack_B.E(CSE)_python_2026.pdf"
+                href="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
                 download
                 className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 font-semibold text-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(34,211,238,0.3)]"
               >
@@ -478,7 +478,7 @@ export default function PortfolioWebsite() {
       </button>
 
       <iframe
-        src="/dharneshpriyan.j_fullstack_B.E(CSE)_python_2026.pdf"
+        src="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
         title="Resume"
         className="w-full h-full rounded-2xl"
       />
@@ -489,7 +489,7 @@ export default function PortfolioWebsite() {
 
 
       <footer className="mx-auto max-w-7xl px-6 pb-12 pt-4 text-center text-sm text-slate-500">
-        © 2026 Dharnesh Priyan J. Crafted with React, Tailwind CSS, and ambition.
+        © 2026 Dharnesh Priyan J. Crafted with React, Tailwind CSS, and Vercel.
       </footer>
 
       <style>{`
