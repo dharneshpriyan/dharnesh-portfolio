@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function IconWrapper({ children, className = "" }) {
   return (
@@ -90,6 +90,25 @@ function ExternalLinkIcon() {
   );
 }
 
+function MenuIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+      <path d="m6 6 12 12" />
+      <path d="M18 6 6 18" />
+    </svg>
+  );
+}
+
 function ProfileFallback() {
   return (
     <div className="relative flex h-44 w-44 items-center justify-center overflow-hidden rounded-[2rem] border border-cyan-300/30 bg-gradient-to-br from-cyan-400/20 to-purple-400/20 shadow-[0_0_60px_rgba(34,211,238,0.18)]">
@@ -119,21 +138,39 @@ function ProfileImage() {
 
 function SectionHeading({ icon, label, title, subtitle }) {
   return (
-    <div className="mb-10 flex items-end justify-between gap-6">
+    <div className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between md:gap-6">
       <div className="flex items-center gap-4">
         <IconWrapper>{icon}</IconWrapper>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">{label}</p>
-          <h3 className="mt-2 text-3xl font-bold md:text-4xl">{title}</h3>
+          <h3 className="mt-2 text-2xl font-bold sm:text-3xl md:text-4xl">{title}</h3>
         </div>
       </div>
-      {subtitle ? <p className="hidden max-w-md text-right text-sm leading-7 text-slate-400 md:block">{subtitle}</p> : null}
+      {subtitle ? <p className="max-w-md text-sm leading-7 text-slate-400 md:text-right">{subtitle}</p> : null}
     </div>
   );
 }
 
 export default function PortfolioWebsite() {
   const [showResume, setShowResume] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const navLinks = [
+    ["About", "#about"],
+    ["Skills", "#skills"],
+    ["Internship", "#experience"],
+    ["Projects", "#projects"],
+    ["Contact", "#contact"],
+  ];
+
+  useEffect(() => {
+    document.body.style.overflow = showResume || showMobileMenu ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showResume, showMobileMenu]);
+
   const skills = [
     "Python",
     "React JS",
@@ -153,19 +190,19 @@ export default function PortfolioWebsite() {
     {
       title: "Full Stack Web Applications",
       desc: "Developed modern responsive web applications using React, JavaScript, and backend integration with Python, focusing on clean UI, performance, and real-world usability.",
-      stack: "React • JavaScript • Python • SQL • Full Stack",
+      stack: "React | JavaScript | Python | SQL | Full Stack",
       highlight: "Core Project",
     },
     {
       title: "Full Stack Development Portfolio",
       desc: "A modern personal portfolio built using React, structured sections, clean UI, and responsive layouts to showcase skills, internship experience, and project work.",
-      stack: "React • Tailwind CSS • JavaScript • Responsive Design",
+      stack: "React | Tailwind CSS | JavaScript | Responsive Design",
       highlight: "Featured Web Project",
     },
     {
       title: "SQL Practice & Database Logic",
       desc: "Hands-on SQL learning focused on joins, procedures, filters, sorting, and query problem solving for placements, interviews, and practical development.",
-      stack: "MySQL • SQL • Stored Procedures • Query Logic",
+      stack: "MySQL | SQL | Stored Procedures | Query Logic",
       highlight: "Core Technical Strength",
     },
   ];
@@ -212,83 +249,97 @@ export default function PortfolioWebsite() {
       <div className="fixed inset-0 -z-10 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:44px_44px]" />
 
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#020617]/95 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <div>
             <h1 className="text-lg font-bold tracking-wide">Dharnesh Priyan J</h1>
             <p className="text-xs text-slate-400">Developer</p>
           </div>
+
           <nav className="hidden items-center gap-3 md:flex">
-            {[
-              ["About", "#about"],
-              ["Skills", "#skills"],
-              ["Internship", "#experience"],
-              ["Projects", "#projects"],
-              ["Contact", "#contact"],
-            ].map(([label, href]) => (
+            {navLinks.map(([label, href]) => (
               <a
                 key={label}
                 href={href}
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-cyan-400/15 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-slate-200 shadow-[0_8px_20px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10 hover:text-cyan-200 hover:shadow-[0_0_20px_rgba(34,211,238,0.18)]"
               >
-                <span className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.22),transparent_65%)]" />
+                <span className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.22),transparent_65%)] opacity-0 transition duration-300 group-hover:opacity-100" />
                 <span className="relative z-10">{label}</span>
                 <span className="absolute bottom-0 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-400 transition-all duration-300 group-hover:w-3/4" />
               </a>
             ))}
           </nav>
+
+          <button
+            type="button"
+            aria-label={showMobileMenu ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={showMobileMenu}
+            onClick={() => setShowMobileMenu((current) => !current)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/20 bg-white/[0.04] text-cyan-200 shadow-[0_8px_20px_rgba(0,0,0,0.18)] transition hover:border-cyan-300/40 hover:bg-cyan-400/10 md:hidden"
+          >
+            {showMobileMenu ? <CloseIcon /> : <MenuIcon />}
+          </button>
         </div>
+
+        {showMobileMenu ? (
+          <div className="border-t border-white/10 px-4 py-4 md:hidden">
+            <nav className="grid gap-3">
+              {navLinks.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={() => setShowMobileMenu(false)}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/40 hover:bg-cyan-400/10 hover:text-cyan-200"
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
+        ) : null}
       </header>
 
       <section className="relative overflow-hidden pt-24 md:pt-28">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-[1.15fr_0.85fr] md:items-center md:py-28 xl:py-32">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 sm:py-20 md:grid-cols-[1.15fr_0.85fr] md:items-center md:py-28 xl:py-32">
           <div className="animate-[fadeIn_0.8s_ease-out]">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.12)]">
+            <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs text-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.12)] sm:text-sm">
               <SparklesIcon />
-              Full stack Developer ( Python | Django | React )
+              <span className="truncate">Full stack Developer ( Python | Django | React )</span>
             </div>
 
             <p className="mb-4 text-sm uppercase tracking-[0.3em] text-slate-400">Goal</p>
-            <h2 className="max-w-5xl text-4xl font-black leading-[1.05] md:text-5xl xl:text-6xl">
+            <h2 className="max-w-5xl text-3xl font-black leading-[1.05] sm:text-4xl md:text-5xl xl:text-6xl">
               Building <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">premium</span> digital experiences and modern <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">full stack</span> solutions.
             </h2>
 
-            <p className="mt-8 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
+            <p className="mt-6 max-w-2xl text-[0.98rem] leading-7 text-slate-300 sm:mt-8 md:text-lg md:leading-8">
               I am <span className="font-semibold text-white">Dharnesh Priyan J</span>, a Python and Full Stack Developer focused on modern web development, responsive UI, and clean application structure. I enjoy creating polished, real-world projects with strong design, practical logic, and professional execution.
             </p>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              {/* <a
-                href="#projects"
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-7 py-3.5 font-semibold text-slate-950 shadow-[0_14px_40px_rgba(34,211,238,0.28)] transition duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_18px_44px_rgba(34,211,238,0.38)]"
-              >
-                <span className="relative z-10">Explore Projects</span><span className="absolute inset-0 -translate-x-full bg-white/20 transition duration-500 group-hover:translate-x-0" />
-              </a> */}
+            <div className="mt-10 grid gap-4 sm:flex sm:flex-wrap">
               <a
                 href="#contact"
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-7 py-3.5 font-semibold text-slate-950 shadow-[0_14px_40px_rgba(34,211,238,0.28)] transition duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_18px_44px_rgba(34,211,238,0.38)]"
+                className="group relative flex min-h-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-7 py-3.5 text-center font-semibold text-slate-950 shadow-[0_14px_40px_rgba(34,211,238,0.28)] transition duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_18px_44px_rgba(34,211,238,0.38)] sm:min-h-0"
               >
-                Let’s Connect
+                Let's Connect
               </a>
 
-              {/* View Resume (Modal) */}
               <button
+                type="button"
                 onClick={() => setShowResume(true)}
-                className="group relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-cyan-400/20 hover:shadow-[0_12px_30px_rgba(34,211,238,0.25)]"
+                className="group relative min-h-14 overflow-hidden rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-cyan-400/20 hover:shadow-[0_12px_30px_rgba(34,211,238,0.25)] sm:min-h-0"
               >
-                <span className="relative z-10">👁 View Resume</span>
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-[radial-gradient(circle,rgba(34,211,238,0.25),transparent_70%)]" />
+                <span className="relative z-10">View Resume</span>
+                <span className="absolute inset-0 bg-[radial-gradient(circle,rgba(34,211,238,0.25),transparent_70%)] opacity-0 transition duration-300 group-hover:opacity-100" />
               </button>
 
-              {/* Download Resume */}
               <a
                 href="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
                 download
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 font-semibold text-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(34,211,238,0.3)]"
+                className="group relative flex min-h-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-center font-semibold text-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(34,211,238,0.3)] sm:min-h-0"
               >
-                <span className="relative z-10">⬇ Download Resume</span>
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-white/20" />
+                <span className="relative z-10">Download Resume</span>
+                <span className="absolute inset-0 bg-white/20 opacity-0 transition duration-300 group-hover:opacity-100" />
               </a>
-
             </div>
 
             <div className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -307,19 +358,19 @@ export default function PortfolioWebsite() {
 
           <div className="relative animate-[floatUp_0.9s_ease-out]">
             <div className="absolute -inset-8 rounded-[2.7rem] bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-purple-500/20 blur-3xl" />
-            <div className="relative rounded-[2.2rem] border border-white/10 bg-white/[0.05] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
-              <div className="rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(10,20,45,0.96),rgba(3,8,24,0.96))] p-7">
+            <div className="relative rounded-[2.2rem] border border-white/10 bg-white/[0.05] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:p-6">
+              <div className="rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(10,20,45,0.96),rgba(3,8,24,0.96))] p-5 sm:p-7">
                 <div className="flex flex-col items-center text-center">
                   <ProfileImage />
                   <p className="mt-5 text-xs uppercase tracking-[0.35em] text-slate-500">Professional Profile</p>
-                  <h3 className="mt-3 text-4xl font-bold">Dharnesh Priyan J</h3>
-                  <p className="mt-3 text-base text-slate-300">Full Stack Developer ( Python | Django | React )</p>
+                  <h3 className="mt-3 text-3xl font-bold sm:text-4xl">Dharnesh Priyan J</h3>
+                  <p className="mt-3 text-sm text-slate-300 sm:text-base">Full Stack Developer ( Python | Django | React )</p>
                 </div>
 
                 <div className="mt-8 grid gap-4">
                   <a href="mailto:dharneshpriyan.j@gmail.com" className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm text-slate-200 transition hover:bg-white/[0.08]">
                     <IconWrapper className="h-11 w-11 rounded-xl"><MailIcon /></IconWrapper>
-                    <span>dharneshpriyan.j@gmail.com</span>
+                    <span className="min-w-0 break-all">dharneshpriyan.j@gmail.com</span>
                   </a>
                   <a href="tel:8946065377" className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm text-slate-200 transition hover:bg-white/[0.08]">
                     <IconWrapper className="h-11 w-11 rounded-xl"><PhoneIcon /></IconWrapper>
@@ -346,18 +397,17 @@ export default function PortfolioWebsite() {
         </div>
       </section>
 
-      <section id="about"
-      className="mx-auto max-w-7xl px-6 py-14 scroll-mt-28">
+      <section id="about" className="mx-auto max-w-7xl scroll-mt-28 px-4 py-14 sm:px-6">
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 shadow-xl backdrop-blur-xl md:p-10">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-xl backdrop-blur-xl sm:p-8 md:p-10">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">About Me</p>
-            <h3 className="mt-4 text-3xl font-bold md:text-4xl">Professional Profile Summary</h3>
+            <h3 className="mt-4 text-2xl font-bold sm:text-3xl md:text-4xl">Professional Profile Summary</h3>
             <p className="mt-6 text-base leading-8 text-slate-300">
               I am a final-year Computer Science Engineering student with strong interest in Python development and Full Stack Development. I enjoy turning ideas into polished applications with clean interfaces, practical logic, and real-world value. My goal is to grow into a software professional who builds impactful systems with both strong frontend presentation and solid backend thinking.
             </p>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 shadow-xl backdrop-blur-xl md:p-10">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-xl backdrop-blur-xl sm:p-8 md:p-10">
             <div className="flex items-center gap-3">
               <IconWrapper><GraduationIcon /></IconWrapper>
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Education</p>
@@ -373,8 +423,8 @@ export default function PortfolioWebsite() {
         </div>
       </section>
 
-      <section id="skills" className="mx-auto max-w-7xl px-6 py-12 scroll-mt-28">
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 shadow-xl backdrop-blur-xl md:p-10">
+      <section id="skills" className="mx-auto max-w-7xl scroll-mt-28 px-4 py-12 sm:px-6">
+        <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-xl backdrop-blur-xl sm:p-8 md:p-10">
           <SectionHeading
             icon={<CodeIcon />}
             label="Technical Skills"
@@ -394,8 +444,8 @@ export default function PortfolioWebsite() {
         </div>
       </section>
 
-      <section id="experience" className="mx-auto max-w-7xl px-6 py-12 scroll-mt-26">
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 shadow-xl backdrop-blur-xl md:p-10">
+      <section id="experience" className="mx-auto max-w-7xl scroll-mt-26 px-4 py-12 sm:px-6">
+        <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-xl backdrop-blur-xl sm:p-8 md:p-10">
           <SectionHeading
             icon={<SparklesIcon />}
             label="Internship"
@@ -403,7 +453,7 @@ export default function PortfolioWebsite() {
             subtitle="Practical training experience that strengthens development workflow, project structure, and technical confidence."
           />
 
-          <div className="grid gap-6 md:grid-cols-1">
+          <div className="grid gap-6">
             {experience.map((item) => (
               <div key={item.title} className="rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.03))] p-6 shadow-lg">
                 <p className="text-sm uppercase tracking-[0.25em] text-cyan-300">Current Internship</p>
@@ -416,7 +466,7 @@ export default function PortfolioWebsite() {
         </div>
       </section>
 
-      <section id="projects" className="mx-auto max-w-7xl px-6 py-12 scroll-mt-16">
+      <section id="projects" className="mx-auto max-w-7xl scroll-mt-16 px-4 py-12 sm:px-6">
         <SectionHeading
           icon={<BrainIcon />}
           label="Projects"
@@ -443,53 +493,94 @@ export default function PortfolioWebsite() {
         </div>
       </section>
 
-      <section id="contact" className="mx-auto max-w-7xl px-6 py-14" scroll-mt-16>
-        <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.10),rgba(59,130,246,0.10),rgba(168,85,247,0.10))] p-8 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl md:p-10">
+      <section id="contact" className="mx-auto max-w-7xl scroll-mt-16 px-4 py-14 sm:px-6">
+        <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(6,182,212,0.10),rgba(59,130,246,0.10),rgba(168,85,247,0.10))] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8 md:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Contact Me</p>
-          <h3 className="mt-4 text-3xl font-bold md:text-5xl">Let’s Build Something Great Together</h3>
+          <h3 className="mt-4 text-2xl font-bold sm:text-3xl md:text-5xl">Let's Build Something Great Together</h3>
           <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300">
             I am open to internships, entry-level opportunities, project collaborations, freelance work, and professional connections in Python development and full stack development.
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {contacts.map((contact) => (
-              <a key={contact.title} href={contact.href} target={contact.href.startsWith("http") ? "_blank" : undefined} rel={contact.href.startsWith("http") ? "noreferrer" : undefined} className="group rounded-[1.6rem] border border-white/10 bg-slate-950/40 p-5 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/20 hover:bg-slate-900/70 hover:shadow-[0_12px_30px_rgba(34,211,238,0.10)]">
+              <a
+                key={contact.title}
+                href={contact.href}
+                target={contact.href.startsWith("http") ? "_blank" : undefined}
+                rel={contact.href.startsWith("http") ? "noreferrer" : undefined}
+                className="group rounded-[1.6rem] border border-white/10 bg-slate-950/40 p-5 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/20 hover:bg-slate-900/70 hover:shadow-[0_12px_30px_rgba(34,211,238,0.10)]"
+              >
                 <div className="flex items-center gap-3">
                   <IconWrapper>{contact.icon}</IconWrapper>
                   <p className="font-semibold transition duration-300 group-hover:text-cyan-200">{contact.title}</p>
                 </div>
-                <p className="mt-3 text-sm text-slate-300">{contact.value}</p>
+                <p className="mt-3 break-words text-sm text-slate-300">{contact.value}</p>
               </a>
             ))}
           </div>
         </div>
       </section>
 
+      {showResume ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur">
+          <div className="relative flex h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#020617] shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setShowResume(false)}
+              className="absolute top-4 right-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/80 text-white transition hover:bg-red-600"
+            >
+              <CloseIcon />
+            </button>
 
-      {/* Resume Modal */}
-{showResume && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur">
-    <div className="relative w-[90%] h-[90%] max-w-5xl bg-[#020617] rounded-2xl border border-white/10 shadow-2xl">
-      <button
-        onClick={() => setShowResume(false)}
-        className="absolute top-4 right-4 text-white text-lg px-3 py-1 rounded-lg bg-red-500/80 hover:bg-red-600"
-      >
-        ✕
-      </button>
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <div>
+                <p className="text-sm font-semibold text-cyan-300">Resume Preview</p>
+                <p className="text-xs text-slate-400">Optimized for desktop preview and mobile download.</p>
+              </div>
+              <a
+                href="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="mr-14 hidden rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400/20 sm:inline-flex"
+              >
+                Open in New Tab
+              </a>
+            </div>
 
-      <iframe
-        src="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
-        title="Resume"
-        className="w-full h-full rounded-2xl"
-      />
-    </div>
-  </div>
-)}
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-1 flex-col items-center justify-center gap-4 px-5 py-8 text-center sm:hidden">
+                <p className="max-w-sm text-sm leading-7 text-slate-300">
+                  On mobile, the resume opens more cleanly in your browser or downloads directly as a PDF.
+                </p>
+                <a
+                  href="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-12 w-full max-w-sm items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-5 py-3 font-semibold text-slate-950"
+                >
+                  Open Resume
+                </a>
+                <a
+                  href="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
+                  download
+                  className="flex min-h-12 w-full max-w-sm items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 font-semibold text-white"
+                >
+                  Download PDF
+                </a>
+              </div>
 
+              <iframe
+                src="/dharneshpriyan.j_fullstack_python_B.E(CSE)_2026.pdf"
+                title="Resume"
+                className="hidden h-full w-full sm:block"
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
 
-
-      <footer className="mx-auto max-w-7xl px-6 pb-12 pt-4 text-center text-sm text-slate-500">
-        © 2026 Dharnesh Priyan J. Crafted with React, Tailwind CSS, and Vercel.
+      <footer className="mx-auto max-w-7xl px-4 pb-12 pt-4 text-center text-sm text-slate-500 sm:px-6">
+        (c) 2026 Dharnesh Priyan J. Crafted with React, Tailwind CSS, and Vercel.
       </footer>
 
       <style>{`
